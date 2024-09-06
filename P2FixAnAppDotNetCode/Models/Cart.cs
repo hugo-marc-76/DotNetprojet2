@@ -27,8 +27,30 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>//
         public void AddItem(Product product, int quantity)
         {
-            // TODO implement the method
+            // On récupère la liste actuelle des lignes de panier
+            List<CartLine> cartLines = GetCartLineList();
+
+            // On cherche si le produit est déjà dans le panier
+            CartLine line = cartLines
+                .Where(p => p.Product.Id == product.Id)
+                .FirstOrDefault();
+
+            if (line == null)
+            {
+                // Si le produit n'existe pas encore dans le panier, on l'ajoute
+                cartLines.Add(new CartLine
+                {
+                    Product = product,
+                    Quantity = quantity
+                });
+            }
+            else
+            {
+                // Si le produit est déjà dans le panier, on incrémente la quantité
+                line.Quantity += quantity;
+            }
         }
+
 
         /// <summary>
         /// Removes a product form the cart
