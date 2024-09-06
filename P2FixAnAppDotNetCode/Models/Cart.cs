@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace P2FixAnAppDotNetCode.Models
@@ -11,7 +12,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// <summary>
         /// Read-only property for display only
         /// </summary>
-        public IEnumerable<CartLine> Lines => GetCartLineList();
+        public List<CartLine> Lines = new List<CartLine>();
 
         /// <summary>
         /// Return the actual cartline list
@@ -19,7 +20,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// <returns></returns>
         private List<CartLine> GetCartLineList()
         {
-            return new List<CartLine>();
+            return Lines;
         }
 
         /// <summary>
@@ -27,22 +28,27 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>//
         public void AddItem(Product product, int quantity)
         {
-            // On récupère la liste actuelle des lignes de panier
-            List<CartLine> cartLines = GetCartLineList();
 
             // On cherche si le produit est déjà dans le panier
-            CartLine line = cartLines
+            CartLine line = Lines
                 .Where(p => p.Product.Id == product.Id)
                 .FirstOrDefault();
 
             if (line == null)
             {
                 // Si le produit n'existe pas encore dans le panier, on l'ajoute
-                cartLines.Add(new CartLine
+                try
                 {
-                    Product = product,
-                    Quantity = quantity
-                });
+                    Lines.Add(new CartLine
+                    {
+                        Product = product,
+                        Quantity = quantity
+                    });
+                }
+                catch (Exception ex) 
+                {
+                
+                }
             }
             else
             {
