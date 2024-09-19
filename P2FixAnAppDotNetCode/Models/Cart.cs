@@ -69,8 +69,7 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public double GetTotalValue()
         {
-            // TODO implement the method
-            return 0.0;
+            return Lines.Sum(line => line.Product.Price * line.Quantity);
         }
 
         /// <summary>
@@ -78,8 +77,10 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public double GetAverageValue()
         {
-            // TODO implement the method
-            return 0.0;
+            int totalQuantity = Lines.Sum(line => line.Quantity);
+            if (totalQuantity == 0)
+                return 0.0;
+            return GetTotalValue() / totalQuantity;
         }
 
         /// <summary>
@@ -87,8 +88,8 @@ namespace P2FixAnAppDotNetCode.Models
         /// </summary>
         public Product FindProductInCartLines(int productId)
         {
-            // TODO implement the method
-            return null;
+            var result = Lines.FirstOrDefault(x => x.Product.Id == productId);
+            return result == null ? null : result.Product;
         }
 
         /// <summary>
