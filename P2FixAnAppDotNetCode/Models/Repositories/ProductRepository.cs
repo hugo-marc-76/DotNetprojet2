@@ -29,6 +29,12 @@ namespace P2FixAnAppDotNetCode.Models.Repositories
             _products.Add(new Product(++id, 50, 895.00, "NOKIA OEM BL-5J", "Cell Phone "));
         }
 
+        public Product GetProductById(int id)
+        {
+            return _products.FirstOrDefault(x => x.Id == id);
+        }
+
+
         /// <summary>
         /// Get all products from the inventory
         /// </summary>
